@@ -8,6 +8,11 @@ class Settings(BaseSettings):
     environment: str = "development"
     database_url: str = "sqlite:///./hiring_assessment.db"
     log_level: str = "INFO"
+    llm_api_key: str | None = None
+    llm_base_url: str | None = None
+    llm_model: str = "gpt-4o-mini"
+    llm_timeout_seconds: float = 30.0
+    scoring_max_attempts: int = 3
 
     model_config = SettingsConfigDict(
         env_file=".env",

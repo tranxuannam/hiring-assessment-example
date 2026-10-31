@@ -11,7 +11,7 @@ class QuestionCreate(APIModel):
     prompt: str = Field(min_length=1)
     position: int = Field(ge=1)
     evaluation_criteria: str = Field(min_length=1)
-    max_score: int = Field(default=10, ge=1, le=100)
+    max_score: int = Field(default=4, ge=1, le=4)
 
 
 class QuestionResponse(QuestionCreate):

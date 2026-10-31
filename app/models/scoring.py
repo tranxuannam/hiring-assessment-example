@@ -2,7 +2,9 @@ from enum import StrEnum
 from typing import TYPE_CHECKING
 from uuid import UUID
 
-from sqlalchemy import Enum, ForeignKey, Integer, Numeric, String, Text, UniqueConstraint
+from datetime import datetime
+
+from sqlalchemy import DateTime, Enum, ForeignKey, Integer, Numeric, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base, TimestampMixin, UUIDPrimaryKeyMixin
@@ -31,7 +33,9 @@ class ScoringJob(UUIDPrimaryKeyMixin, TimestampMixin, Base):
         nullable=False,
     )
     attempts: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
-    available_at: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    available_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
     last_error: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     answer: Mapped["Answer"] = relationship()

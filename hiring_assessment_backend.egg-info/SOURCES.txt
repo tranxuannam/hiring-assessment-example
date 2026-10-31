@@ -17,8 +17,11 @@ app/schemas/assessment.py
 app/schemas/candidate.py
 app/schemas/common.py
 app/schemas/scoring.py
+app/schemas/scoring_result.py
 app/services/database.py
 app/services/health.py
+app/services/llm.py
+app/services/scoring.py
 hiring_assessment_backend.egg-info/PKG-INFO
 hiring_assessment_backend.egg-info/SOURCES.txt
 hiring_assessment_backend.egg-info/dependency_links.txt
@@ -26,3 +29,4 @@ hiring_assessment_backend.egg-info/requires.txt
 hiring_assessment_backend.egg-info/top_level.txt
 tests/test_health.py
 tests/test_models.py
+tests/test_scoring.py

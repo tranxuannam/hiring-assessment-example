@@ -20,3 +20,12 @@ python -m uvicorn app.main:app --reload
 ```
 
 The health endpoint is available at `GET /health`.
+
+### LLM scoring
+
+Scoring uses the configured OpenAI-compatible API. Set `LLM_API_KEY` and
+optionally `LLM_BASE_URL` and `LLM_MODEL` in `.env`; do not commit credentials.
+The scoring service persists each job and score, accepts only JSON with an
+integer score from 1 through 4 and a reason, and treats candidate answers as
+untrusted data. Provider failures retry with backoff until
+`SCORING_MAX_ATTEMPTS`; malformed model output is marked `needs_human`.
