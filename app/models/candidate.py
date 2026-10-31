@@ -23,3 +23,6 @@ class Candidate(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
     answers: Mapped[list["Answer"]] = relationship(back_populates="candidate")
+    assignments: Mapped[list["AssessmentAssignment"]] = relationship(
+        back_populates="candidate"
+    )

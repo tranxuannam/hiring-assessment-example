@@ -9,7 +9,7 @@ from app.db.base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 
 if TYPE_CHECKING:
     from app.models.candidate import Candidate
-    from app.models.scoring import Score
+    from app.models.scoring import Score, ScoringJob
 
 
 class AnswerType(StrEnum):
@@ -30,6 +30,30 @@ class Question(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     answers: Mapped[list["Answer"]] = relationship(back_populates="question")
 
 
+class AssignmentStatus(StrEnum):
+    ACTIVE = "active"
+    SUBMITTED = "submitted"
+    CLOSED = "closed"
+
+
+class AssessmentAssignment(UUIDPrimaryKeyMixin, TimestampMixin, Base):
+    __tablename__ = "assessment_assignments"
+    __table_args__ = (
+        UniqueConstraint("candidate_id", "role", name="uq_candidate_assignment_role"),
+    )
+
+    candidate_id: Mapped[UUID] = mapped_column(ForeignKey("candidates.id"), index=True)
+    role: Mapped[str] = mapped_column(String(120), index=True)
+    token_hash: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    status: Mapped[AssignmentStatus] = mapped_column(
+        Enum(AssignmentStatus, native_enum=False, length=20),
+        default=AssignmentStatus.ACTIVE,
+        nullable=False,
+    )
+
+    candidate: Mapped["Candidate"] = relationship(back_populates="assignments")
+
+
 class Answer(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     __tablename__ = "answers"
     __table_args__ = (
@@ -47,3 +71,6 @@ class Answer(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     candidate: Mapped["Candidate"] = relationship(back_populates="answers")
     question: Mapped["Question"] = relationship(back_populates="answers")
     score: Mapped["Score | None"] = relationship(back_populates="answer", uselist=False)
+    scoring_job: Mapped["ScoringJob | None"] = relationship(
+        back_populates="answer", uselist=False
+    )

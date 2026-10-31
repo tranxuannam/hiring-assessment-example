@@ -21,6 +21,12 @@ python -m uvicorn app.main:app --reload
 
 The health endpoint is available at `GET /health`.
 
+Candidate assessment links are bearer-style random tokens; only their SHA-256
+hashes are stored. Candidate responses expose question and progress state but
+never scores. The HR demo uses the clearly labelled `X-Mock-HR-Email` header
+after `POST /hr/mock-sign-in`; this is mock authentication for the take-home,
+not production authentication.
+
 ### LLM scoring
 
 Scoring uses the configured OpenAI-compatible API. Set `LLM_API_KEY` and

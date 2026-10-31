@@ -38,7 +38,7 @@ class ScoringJob(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     )
     last_error: Mapped[str | None] = mapped_column(Text, nullable=True)
 
-    answer: Mapped["Answer"] = relationship()
+    answer: Mapped["Answer"] = relationship(back_populates="scoring_job")
 
 
 class Score(UUIDPrimaryKeyMixin, TimestampMixin, Base):
@@ -52,3 +52,13 @@ class Score(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     prompt_version: Mapped[str] = mapped_column(String(80))
 
     answer: Mapped["Answer"] = relationship(back_populates="score")
+
+
+class ScoreOverrideAudit(UUIDPrimaryKeyMixin, TimestampMixin, Base):
+    __tablename__ = "score_override_audits"
+
+    score_id: Mapped[UUID] = mapped_column(ForeignKey("scores.id"), index=True)
+    hr_user_id: Mapped[UUID] = mapped_column(ForeignKey("candidates.id"), index=True)
+    previous_score: Mapped[float] = mapped_column(Numeric(5, 2))
+    new_score: Mapped[float] = mapped_column(Numeric(5, 2))
+    reason: Mapped[str] = mapped_column(Text)
