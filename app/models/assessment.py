@@ -25,7 +25,7 @@ class Question(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     prompt: Mapped[str] = mapped_column(Text)
     position: Mapped[int] = mapped_column(Integer)
     evaluation_criteria: Mapped[str] = mapped_column(Text)
-    max_score: Mapped[int] = mapped_column(Integer, default=10)
+    max_score: Mapped[int] = mapped_column(Integer, default=4)
 
     answers: Mapped[list["Answer"]] = relationship(back_populates="question")
 
