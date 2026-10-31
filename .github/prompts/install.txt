@@ -1,0 +1,8 @@
+Install PYTHON
+
+cd D:\projects\hiring-assessment\hiring-assessment-example
+python -m pip install --upgrade pip
+python -m pip install -e ".[test]"
+python -m uvicorn app.main:app --reload
+
+RUN: curl.exe http://127.0.0.1:8000/health
